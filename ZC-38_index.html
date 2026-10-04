@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson Plan Builder • Techfest 2026 (ZC-38)</title>
+  <meta name="description" content="Lesson Plan Builder for teachers with exact minute division, offline persistence, and pure HTML/CSS/JS.">
+  <link rel="stylesheet" href="./ZC-38_style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Top Header Bar -->
+    <header class="app-header no-print">
+      <div class="header-inner">
+        <div class="brand-group">
+          <div class="logo-box">
+            <span class="logo-icon">⏱️</span>
+          </div>
+          <div class="brand-text">
+            <div class="brand-title-row">
+              <h1>Lesson Plan Builder</h1>
+              <span class="id-badge">ID: ZC-38</span>
+            </div>
+            <p class="brand-subtitle">Techfest, IIT Bombay • Bangladesh Zonal 2026 (DUET Robotics Club)</p>
+          </div>
+        </div>
+
+        <div class="header-tools">
+          <div class="rule-badges">
+            <span class="tech-pill">HTML5</span>
+            <span class="tech-pill">CSS3</span>
+            <span class="tech-pill">JavaScript</span>
+            <span class="tech-pill">Offline</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-container">
+      
+      <!-- Competition Submission Helper Box -->
+      <section class="contest-helper-banner no-print">
+        <div class="helper-lead">
+          <span class="helper-emoji">📋</span>
+          <div>
+            <h2 class="helper-heading">Submission File Helper (ID: ZC-38)</h2>
+            <p class="helper-desc">
+              Your files for the Google Form must be named: <code>ZC-38_index.html</code>, <code>ZC-38_style.css</code>, and <code>ZC-38_script.js</code>.
+              Click the button to download them pre-renamed with all internal links updated.
+            </p>
+          </div>
+        </div>
+        <div class="helper-controls">
+          <div class="id-input-wrap">
+            <label for="competitionIdInput" class="sr-only">Competition ID</label>
+            <input 
+              type="text" 
+              id="competitionIdInput" 
+              value="ZC-38" 
+              class="id-input"
+              placeholder="e.g. ZC-38"
+            >
+          </div>
+          <button type="button" id="downloadZipBtn" class="btn btn-success btn-sm">
+            💾 Download ZC-38 Files
+          </button>
+        </div>
+      </section>
+
+      <!-- Input Form Card (Requirement #1: Topic, Class Level, Total Minutes) -->
+      <section class="card form-card no-print">
+        <div class="card-title-bar">
+          <div class="card-title-left">
+            <span class="section-number-badge">1</span>
+            <div>
+              <h3>Classroom Configuration</h3>
+              <p class="card-caption">Fill in class parameters to generate the exact minute-by-minute plan</p>
+            </div>
+          </div>
+          <button type="button" id="sampleDataBtn" class="btn btn-ghost btn-sm" title="Fill sample data quickly">
+            📋 Sample Demo
+          </button>
+        </div>
+
+        <form id="planForm" onsubmit="return false;" novalidate>
+          <div class="form-grid">
+            
+            <!-- 1. Topic Input -->
+            <div class="input-field-group col-span-2">
+              <div class="label-row">
+                <label for="topicInput">
+                  Lesson Topic <span class="req-star">*</span>
+                </label>
+                <span class="label-hint">Core lesson subject</span>
+              </div>
+              <input 
+                type="text" 
+                id="topicInput" 
+                class="form-control" 
+                placeholder="e.g. Photosynthesis, Newton's Laws of Motion, Fractions & Decimals..."
+                autocomplete="off"
+              >
+              <!-- Quick Topic Suggestions -->
+              <div class="quick-chip-container">
+                <span class="chip-legend">Presets:</span>
+                <button type="button" class="chip-item topic-chip" data-topic="Photosynthesis & Cell Respiration">Photosynthesis</button>
+                <button type="button" class="chip-item topic-chip" data-topic="Newton's Three Laws of Motion">Newton's Laws</button>
+                <button type="button" class="chip-item topic-chip" data-topic="Introduction to Python Algorithms">Python Loops</button>
+                <button type="button" class="chip-item topic-chip" data-topic="Fractions, Ratios & Percentages">Fractions</button>
+                <button type="button" class="chip-item topic-chip" data-topic="The Water Cycle & Climate Systems">Water Cycle</button>
+              </div>
+            </div>
+
+            <!-- 2. Class Level Input -->
+            <div class="input-field-group">
+              <div class="label-row">
+                <label for="classLevelInput">
+                  Class / Grade Level <span class="req-star">*</span>
+                </label>
+              </div>
+              <div class="select-container">
+                <select id="classLevelInput" class="form-control select-control">
+                  <option value="" disabled selected>Select class level...</option>
+                  <option value="Primary School (Grade 1 - 5)">Primary School (Grade 1 - 5)</option>
+                  <option value="Middle School (Grade 6 - 8)">Middle School (Grade 6 - 8)</option>
+                  <option value="Secondary School (Grade 9 - 10)">High School (Grade 9 - 10)</option>
+                  <option value="Higher Secondary (Grade 11 - 12)">College / Grade 11 - 12</option>
+                  <option value="Undergraduate / University">Undergraduate / University</option>
+                  <option value="Custom Level">✏️ Custom Level...</option>
+                </select>
+              </div>
+              <input 
+                type="text" 
+                id="customLevelInput" 
+                class="form-control hidden mt-2" 
+                placeholder="Enter custom grade level (e.g. Robotics Workshop)"
+              >
+            </div>
+
+            <!-- 3. Total Minutes Input -->
+            <div class="input-field-group">
+              <div class="label-row">
+                <label for="minutesInput">
+                  Total Class Duration (Minutes) <span class="req-star">*</span>
+                </label>
+                <span class="label-hint">Positive integer &gt; 0</span>
+              </div>
+              <input 
+                type="number" 
+                id="minutesInput" 
+                class="form-control" 
+                placeholder="e.g. 45" 
+                min="1" 
+                step="1"
+              >
+              <!-- Quick Minute Chips -->
+              <div class="quick-chip-container">
+                <span class="chip-legend">Common:</span>
+                <button type="button" class="chip-item time-chip" data-time="15">15 min</button>
+                <button type="button" class="chip-item time-chip" data-time="30">30 min</button>
+                <button type="button" class="chip-item time-chip" data-time="45">45 min</button>
+                <button type="button" class="chip-item time-chip" data-time="50">50 min</button>
+                <button type="button" class="chip-item time-chip" data-time="60">60 min</button>
+                <button type="button" class="chip-item time-chip" data-time="90">90 min</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Action Buttons (Requirement #2: Button that shows a plan split into sections) -->
+          <div class="button-bar">
+            <button type="submit" id="generateBtn" class="btn btn-primary btn-lg">
+              ⚡ Generate Lesson Plan
+            </button>
+            <button type="button" id="clearBtn" class="btn btn-secondary btn-lg">
+              🔄 Clear / Reset
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Requirement #4 Error Alert Box -->
+      <!-- "Show a message, and no plan, if the minutes are empty, zero, or negative." -->
+      <div id="messageBox" class="error-banner hidden" role="alert" aria-live="assertive">
+        <div class="error-banner-icon">⚠️</div>
+        <div class="error-banner-body">
+          <h4 id="messageTitle">Invalid Minutes</h4>
+          <p id="messageText">Please enter a valid positive number of minutes (greater than 0) to generate a lesson plan.</p>
+        </div>
+      </div>
+
+      <!-- Plan Presentation Container (Requirements #2, #3, #5) -->
+      <section id="planContainer" class="plan-wrapper hidden">
+        
+        <!-- Plan Summary & Mathematical Proof Card -->
+        <div class="card plan-summary-card">
+          <div class="plan-summary-header">
+            <div>
+              <div class="meta-badge-row">
+                <span id="planLevelTag" class="badge-pill badge-level">Grade 9 - 10</span>
+                <span id="planProofTag" class="badge-pill badge-verified">✓ Exact Sum Verified</span>
+                <span class="badge-pill badge-saved">💾 Auto-saved (Reload Safe)</span>
+              </div>
+              <h2 id="planTopicTitle" class="plan-heading">Photosynthesis & Plant Respiration</h2>
+            </div>
+
+            <!-- Toolbar actions -->
+            <div class="plan-actions no-print">
+              <button type="button" id="printBtn" class="btn btn-outline btn-sm">
+                🖨️ Print Plan
+              </button>
+              <button type="button" id="copyPlanBtn" class="btn btn-outline btn-sm">
+                📋 Copy Text
+              </button>
+            </div>
+          </div>
+
+          <!-- Mathematical Exact Sum Banner (Requirement #3 Proof) -->
+          <div class="math-proof-box">
+            <div class="proof-card">
+              <span class="proof-title">Requested Total</span>
+              <div class="proof-stat">
+                <span id="proofTotalMinutes" class="stat-num">45</span>
+                <span class="stat-unit">mins</span>
+              </div>
+            </div>
+
+            <div class="proof-operator">=</div>
+
+            <div class="proof-card">
+              <span class="proof-title">Sum of All Sections</span>
+              <div class="proof-stat text-emerald">
+                <span id="proofSumMinutes" class="stat-num">45</span>
+                <span class="stat-unit">mins</span>
+              </div>
+            </div>
+
+            <div class="proof-card proof-card-status">
+              <span class="proof-title">Exact Arithmetic Proof</span>
+              <div class="exact-badge">
+                <span class="check-icon">✓</span>
+                <span id="exactMatchNotice">100% Exact Match: Sections Sum ≡ Total</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Time Breakdown Bar -->
+          <div class="visual-time-distribution">
+            <div class="distribution-header">
+              <span>Section Minute Breakdown</span>
+              <span id="timeBarTotalLabel">Total: 45 minutes</span>
+            </div>
+            <div id="timelineBar" class="timeline-track" title="Section duration distribution">
+              <!-- Dynamically populated proportional segments -->
+            </div>
+            <div id="timelineLegend" class="timeline-legend">
+              <!-- Dynamically populated legend -->
+            </div>
+          </div>
+
+          <!-- Live Classroom Session Timer -->
+          <div class="live-timer-strip no-print">
+            <div class="timer-info">
+              <span class="timer-icon">⏱️</span>
+              <div>
+                <strong>Class Session Timer:</strong>
+                <span id="timerCurrentSection">Ready to start: Section 1</span>
+              </div>
+            </div>
+            <div class="timer-display">
+              <span id="timerDigits">00:00</span>
+            </div>
+            <div class="timer-actions">
+              <button type="button" id="timerStartBtn" class="btn btn-sm btn-primary">▶ Start</button>
+              <button type="button" id="timerPauseBtn" class="btn btn-sm btn-secondary hidden">⏸ Pause</button>
+              <button type="button" id="timerResetBtn" class="btn btn-sm btn-outline">↺ Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section Breakdown Heading -->
+        <div class="section-heading-row">
+          <div>
+            <h3 class="section-main-title">
+              Section-by-Section Lesson Plan (<span id="sectionCountLabel">5</span> Stages)
+            </h3>
+            <p class="section-main-sub">
+              Each section has its individual minutes explicitly shown, adding up exactly to the total duration.
+            </p>
+          </div>
+        </div>
+
+        <!-- Section Cards Container -->
+        <div id="sectionsWrapper" class="sections-container">
+          <!-- Dynamically populated sections -->
+        </div>
+
+        <!-- Lesson Checklist & Pedagogical Guide -->
+        <div class="card toolkit-card">
+          <div class="toolkit-header">
+            <h4>Classroom Readiness & Objectives</h4>
+            <span class="toolkit-badge">Standard Delivery Model</span>
+          </div>
+
+          <div class="toolkit-grid">
+            <div class="toolkit-box">
+              <div class="toolkit-box-title">
+                <h5>🎯 Learning Objectives</h5>
+              </div>
+              <ul id="objectivesList" class="styled-list">
+                <!-- Populated via script -->
+              </ul>
+            </div>
+
+            <div class="toolkit-box">
+              <div class="toolkit-box-title">
+                <h5>📦 Required Materials</h5>
+              </div>
+              <ul id="materialsList" class="styled-list">
+                <!-- Populated via script -->
+              </ul>
+            </div>
+
+            <div class="toolkit-box col-span-full">
+              <div class="toolkit-box-title">
+                <h5>💡 Teacher Delivery Guidance</h5>
+              </div>
+              <p id="teacherTips" class="teacher-tip-text">
+                Pacing is key: follow the allocated minutes per section to guarantee full syllabus coverage without running out of time.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- Standard Footer -->
+    <footer class="app-footer no-print">
+      <div class="footer-inner">
+        <p><strong>Techfest, IIT Bombay — Bangladesh Zonal 2026</strong> | Organized by <strong>DUET Robotics Club</strong></p>
+        <p class="footer-meta">Participant ID: <strong>ZC-38</strong> • ZeroCode Segment • Vanilla HTML, CSS, JavaScript</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast-popup hidden" role="status" aria-live="polite"></div>
+
+  <script src="./ZC-38_script.js"></script>
+</body>
+</html>
